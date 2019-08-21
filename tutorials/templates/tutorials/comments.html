@@ -1,0 +1,25 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'tutorials/prism.css' %}">
+
+<div id="index">
+<h1>Showing last 10 comments for '{{ tutorial.title }}'</h1>
+
+{% if comments_list %}
+    {% for comment in comments_list %}
+        {% if comment.upvote %}
+        <img class="thumb" src="{% static 'tutorials/images/thumb-up.gif' %}" width="35">
+        {% else %}
+        <img class="thumb" src="{% static 'tutorials/images/thumb-down.gif' %}" width="35"> 
+        {% endif %}
+        {{comment.pub_date }}
+        <p>{{ comment.text }}</p><br>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No comments for this tutorial are available.</p>
+{% endif %}
+
+<a href="{% url 'tutorials:detail' tutorial.id %}">Back to tutorial</a>
+
+</div>

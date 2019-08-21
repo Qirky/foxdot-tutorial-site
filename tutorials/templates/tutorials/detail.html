@@ -1,0 +1,44 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'tutorials/prism.css' %}">
+<script src="{% static 'tutorials/prism.js' %}"></script>
+
+<h1>Tutorial {{ tutorial.order_number }}: {{ tutorial.title }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<pre><code class="language-python">{{ tutorial_code }}</code></pre>
+
+<div id="info">
+    <div id="status">
+        <img class="thumb" src="{% static 'tutorials/images/thumb-up.gif' %}" width="35"> ({{ tutorial.upvotes }}) 
+        <img class="thumb" src="{% static 'tutorials/images/thumb-down.gif' %}" width="35"> ({{ tutorial.downvotes }}) 
+    </div>
+    <div id="nav">{% if prev_tutorial %}<a href="{% url 'tutorials:detail' prev_tutorial %}">Previous</a>{% endif %} 
+                  {% if prev_tutorial and next_tutorial %} | {% endif %} 
+                  {% if next_tutorial %}<a href="{% url 'tutorials:detail' next_tutorial %}">Next</a>{% endif %}
+    </div>
+</div>
+
+<div id="vote">
+
+    <i>Was this tutorial useful to you? Please leave a comment</i>
+
+    <form action="{% url 'tutorials:vote' tutorial.id %}" method="post" id="vote_form">
+    {% csrf_token %}
+
+    <textarea rows="5" cols="75" name="text" form="vote_form", required></textarea>
+
+    <br>
+
+    <input type="radio" name="vote" id="upvote" value="1">
+    <label for="upvote">Upvote</label>
+
+    <input type="radio" name="vote" id="downvote" value="0">
+    <label for="downvote">Downvote</label><br><br>
+
+    <input type="submit" value="Comment">
+    </form>
+</div>
+
+<a href="{% url 'tutorials:comments' tutorial.id %}">See comments</a> | <a href="{% url 'tutorials:index' %}">Back to tutorial directory</a>

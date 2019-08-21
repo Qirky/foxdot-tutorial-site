@@ -1,0 +1,19 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'tutorials/prism.css' %}">
+
+<div id="index">
+<h1>FoxDot Tutorials</h1>
+
+<p>Welcome to the FoxDot tutorials page. These tutorials are generated automatically based on the tutorial files include with the <a href="http://foxdot.org/">FoxDot</a> live coding library. Please enjoy!</p>
+
+{% if tutorials_list %}
+    <ul>
+    {% for tutorial in tutorials_list %}
+        <li>Tutorial {{ tutorial.order_number }}: <a href="{% url 'tutorials:detail' tutorial.id %}">{{ tutorial.title }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No tutorials are available.</p>
+{% endif %}
+</div>
